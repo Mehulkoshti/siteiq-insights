@@ -62,10 +62,10 @@ export function HealthScore() {
               return (
                 <line
                   key={i}
-                  x1={160 + Math.cos(a) * 112}
-                  y1={160 + Math.sin(a) * 112}
-                  x2={160 + Math.cos(a) * (i % 6 === 0 ? 120 : 116)}
-                  y2={160 + Math.sin(a) * (i % 6 === 0 ? 120 : 116)}
+                  x1={(160 + Math.cos(a) * 112).toFixed(2)}
+                  y1={(160 + Math.sin(a) * 112).toFixed(2)}
+                  x2={(160 + Math.cos(a) * (i % 6 === 0 ? 120 : 116)).toFixed(2)}
+                  y2={(160 + Math.sin(a) * (i % 6 === 0 ? 120 : 116)).toFixed(2)}
                   stroke="var(--border)"
                   strokeWidth="1"
                 />
