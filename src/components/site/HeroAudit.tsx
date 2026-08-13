@@ -1,9 +1,10 @@
 import { useEffect, useRef, useState } from "react";
 import { ArrowRight, Link2, RotateCcw } from "lucide-react";
-import { LiveScan, SCAN_STAGES } from "./LiveScan";
+import { ScanDashboard, SCAN_STAGES } from "./ScanDashboard";
 import { Reveal } from "./Section";
 
 const SAMPLES = ["github.com", "stripe.com", "vercel.com"];
+const TRUST = ["65+ checks", "AI-powered insights", "Results in seconds"];
 
 export function HeroAudit() {
   const [url, setUrl] = useState("");
@@ -21,11 +22,9 @@ export function HeroAudit() {
     setStatus("scanning");
     setStage(0);
     SCAN_STAGES.forEach((_, i) => {
-      timers.current.push(setTimeout(() => setStage(i), i * 620));
+      timers.current.push(setTimeout(() => setStage(i), i * 380));
     });
-    timers.current.push(
-      setTimeout(() => setStatus("done"), SCAN_STAGES.length * 620 + 300),
-    );
+    timers.current.push(setTimeout(() => setStatus("done"), SCAN_STAGES.length * 380 + 250));
   };
 
   const reset = () => {
@@ -36,27 +35,21 @@ export function HeroAudit() {
 
   return (
     <section id="top" className="relative overflow-hidden pt-32 pb-20 md:pt-40 md:pb-28">
-      <div aria-hidden="true" className="grid-bg absolute inset-0 [mask-image:radial-gradient(ellipse_70%_60%_at_50%_25%,black,transparent)]" />
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute top-[-20%] left-1/2 h-[520px] w-[900px] -translate-x-1/2 opacity-[0.14]"
-        style={{ background: "radial-gradient(ellipse at center, var(--blue), transparent 65%)" }}
+        className="grid-bg absolute inset-0 [mask-image:radial-gradient(ellipse_65%_55%_at_50%_20%,black,transparent)]"
       />
 
       <div className="container-iq relative">
         <Reveal className="mx-auto max-w-3xl text-center">
-          <span className="border-border bg-surface/70 text-muted-foreground inline-flex items-center gap-2 rounded-full border px-3 py-1.5 font-mono text-[0.68rem] tracking-[0.16em] uppercase backdrop-blur">
-            <span className="bg-cyan animate-node size-1.5 rounded-full" />
-            AI-Powered Website Intelligence
-          </span>
-          <h1 className="mt-7 text-[2.6rem] leading-[1.02] font-semibold tracking-[-0.035em] md:text-[4rem] lg:text-[5.25rem]">
-            Your Website.
+          <h1 className="text-[2.7rem] leading-[1.02] font-semibold tracking-[-0.035em] md:text-[4.25rem] lg:text-[5.25rem]">
+            Know What's Holding
             <br />
-            <span className="text-gradient-iq">Under the Microscope.</span>
+            Your <span className="text-gradient-iq">Website</span> Back.
           </h1>
-          <p className="text-muted-foreground mx-auto mt-7 max-w-2xl text-[1.0625rem] leading-relaxed md:text-lg">
-            SiteIQ uses AI to understand your website across security, performance, SEO,
-            accessibility, infrastructure and more — then tells you exactly what to fix.
+          <p className="text-muted-foreground mx-auto mt-7 max-w-xl text-[1.0625rem] leading-relaxed md:text-lg">
+            SiteIQ scans your website for SEO, security, performance and technical issues —
+            then tells you what actually needs fixing.
           </p>
         </Reveal>
 
@@ -67,7 +60,7 @@ export function HeroAudit() {
               e.preventDefault();
               run(url);
             }}
-            className="panel focus-within:ring-ring/25 flex flex-col gap-2 p-2 transition-shadow focus-within:ring-4 sm:flex-row sm:items-center"
+            className="panel focus-within:ring-ring/20 flex flex-col gap-2 p-2 transition-shadow focus-within:ring-4 sm:flex-row sm:items-center"
           >
             <label htmlFor="site-url" className="sr-only">
               Website URL
@@ -81,7 +74,7 @@ export function HeroAudit() {
                 placeholder="Enter your website URL"
                 inputMode="url"
                 autoComplete="url"
-                className="placeholder:text-muted-foreground w-full bg-transparent py-2.5 text-[0.95rem] outline-none"
+                className="placeholder:text-muted-foreground w-full bg-transparent py-2.5 font-mono text-[0.9rem] outline-none"
               />
             </div>
             <button
@@ -99,7 +92,7 @@ export function HeroAudit() {
                 <button
                   type="button"
                   onClick={() => run(s)}
-                  className="hover:text-foreground underline decoration-dotted underline-offset-4 transition-colors"
+                  className="hover:text-foreground font-mono text-[0.82rem] underline decoration-dotted underline-offset-4 transition-colors"
                 >
                   {s}
                 </button>
@@ -116,10 +109,19 @@ export function HeroAudit() {
               </button>
             ) : null}
           </div>
+
+          <ul className="text-muted-foreground mt-6 flex flex-wrap items-center justify-center gap-x-6 gap-y-2">
+            {TRUST.map((t) => (
+              <li key={t} className="flex items-center gap-2 font-mono text-[0.7rem] tracking-[0.12em] uppercase">
+                <span className="bg-cyan size-1 rounded-full" />
+                {t}
+              </li>
+            ))}
+          </ul>
         </Reveal>
 
-        <Reveal delay={200} className="mx-auto mt-14 max-w-5xl">
-          <LiveScan status={status} stage={stage} url={url} />
+        <Reveal delay={200} className="mx-auto mt-16 max-w-4xl">
+          <ScanDashboard status={status} stage={stage} url={url} />
         </Reveal>
       </div>
     </section>
