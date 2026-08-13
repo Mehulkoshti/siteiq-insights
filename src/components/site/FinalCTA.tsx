@@ -27,12 +27,15 @@ export function FinalCTA() {
 
       <div className="container-iq relative text-center">
         <Reveal>
-          <h2 className="text-[2.75rem] leading-[1.02] font-semibold tracking-[-0.035em] md:text-[4.5rem]">
-            Know Your Website.
+          <h2 className="text-[2.5rem] leading-[1.04] font-semibold tracking-[-0.035em] md:text-[4rem]">
+            Stop Guessing.
+            <br />
+            Start Understanding Your Website.
           </h2>
-          <p className="mx-auto mt-6 max-w-md text-lg text-white/60">
-            Stop guessing. Start understanding.
+          <p className="mx-auto mt-6 max-w-lg text-lg text-white/60">
+            Run a SiteIQ audit and see what's really happening under the hood.
           </p>
+
           <div className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
             <a
               href="#analyze"

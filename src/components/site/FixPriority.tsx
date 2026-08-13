@@ -1,95 +1,106 @@
-import { useReveal } from "@/hooks/use-reveal";
-import { Section, SectionHeader, Reveal } from "./Section";
+import { Sparkles } from "lucide-react";
+import { Reveal, Section, SectionHeader } from "./Section";
 import { cn } from "@/lib/utils";
 
 const ITEMS = [
-  { n: "01", level: "Critical", text: "Missing security headers", detail: "CSP, X-Frame-Options absent on all routes" },
-  { n: "02", level: "High", text: "Slow mobile LCP", detail: "4.1s on /pricing — hero image unoptimised" },
-  { n: "03", level: "High", text: "Broken canonical tags", detail: "9 pages point to a redirected URL" },
-  { n: "04", level: "Medium", text: "Weak metadata", detail: "3 templates share one description" },
-  { n: "05", level: "Low", text: "Missing image alt text", detail: "14 decorative images unlabelled" },
+  {
+    n: "01",
+    level: "Critical",
+    text: "Missing security headers",
+    detail: "CSP and X-Frame-Options absent on all routes",
+    impact: "High",
+  },
+  {
+    n: "02",
+    level: "High",
+    text: "Slow mobile performance",
+    detail: "LCP 4.1s on /pricing — hero image unoptimised",
+    impact: "High",
+  },
+  {
+    n: "03",
+    level: "Medium",
+    text: "Weak metadata on 6 pages",
+    detail: "Duplicate descriptions across template pages",
+    impact: "Medium",
+  },
 ];
 
 const LEVEL_STYLE: Record<string, string> = {
   Critical: "bg-danger/10 text-danger",
   High: "bg-warning/15 text-warning",
   Medium: "bg-blue/10 text-blue",
-  Low: "bg-muted text-muted-foreground",
 };
 
-const IMPACT = [
-  { label: "Security", value: 15 },
-  { label: "SEO", value: 12 },
-  { label: "Performance", value: 8 },
-];
-
 export function FixPriority() {
-  const { ref, visible } = useReveal<HTMLDivElement>(0.2);
-
   return (
-    <Section tone="surface">
+    <Section>
       <SectionHeader
-        eyebrow="Fix Priority"
+        eyebrow="Why SiteIQ"
         title={
           <>
-            Don't Fix Everything.
+            Don't Just Find Problems.
             <br />
-            Fix What Matters.
+            Know What to Fix.
           </>
         }
-        sub="SiteIQ ranks every finding by real impact, so a five-minute fix never sits behind a five-day one."
+        sub="Most tools hand you data. SiteIQ hands you direction."
       />
 
-      <div ref={ref} className="mt-14 grid gap-6 lg:mt-20 lg:grid-cols-[minmax(0,1fr)_320px]">
+      <div className="mt-14 grid gap-6 lg:mt-20 lg:grid-cols-[minmax(0,1fr)_340px] lg:items-start">
         <Reveal className="panel overflow-hidden">
+          <div className="border-border flex items-baseline justify-between border-b px-5 py-4">
+            <span className="label-tech">17 issues found</span>
+            <span className="label-tech">SiteIQ priority</span>
+          </div>
           <ol>
-            {ITEMS.map((it, i) => (
+            {ITEMS.map((it) => (
               <li
                 key={it.n}
-                className="border-border hover:bg-accent/50 flex items-center gap-4 border-b px-5 py-4 transition-colors last:border-b-0"
-                style={{ transitionDelay: `${i * 40}ms` }}
+                className="border-border hover:bg-accent/50 flex items-center gap-4 border-b px-5 py-5 transition-colors last:border-b-0"
               >
                 <span className="text-muted-foreground font-mono text-xs">{it.n}</span>
                 <span
                   className={cn(
-                    "rounded-md px-2 py-0.5 font-mono text-[0.65rem] tracking-wider uppercase",
+                    "shrink-0 rounded-md px-2 py-0.5 font-mono text-[0.65rem] tracking-wider uppercase",
                     LEVEL_STYLE[it.level],
                   )}
                 >
                   {it.level}
                 </span>
-                <div className="min-w-0">
+                <div className="min-w-0 flex-1">
                   <p className="truncate text-sm font-medium">{it.text}</p>
                   <p className="text-muted-foreground truncate text-xs">{it.detail}</p>
                 </div>
+                <span className="text-muted-foreground hidden shrink-0 font-mono text-[0.65rem] tracking-wider uppercase sm:block">
+                  Impact · {it.impact}
+                </span>
               </li>
             ))}
           </ol>
+          <div className="border-border text-muted-foreground border-t px-5 py-3 font-mono text-[0.68rem] tracking-wider uppercase">
+            + 14 lower-priority findings
+          </div>
         </Reveal>
 
-        <Reveal delay={120} className="panel p-6">
-          <span className="label-tech">Expected Impact</span>
-          <ul className="mt-6 space-y-6">
-            {IMPACT.map((im, i) => (
-              <li key={im.label}>
-                <div className="flex items-baseline justify-between">
-                  <span className="text-sm">{im.label}</span>
-                  <span className="text-success font-display text-lg font-semibold">+{im.value}</span>
-                </div>
-                <div className="bg-border mt-2 h-1 overflow-hidden rounded-full">
-                  <span
-                    className="bg-success block h-full rounded-full transition-[width] duration-1000"
-                    style={{ width: visible ? `${im.value * 5}%` : 0, transitionDelay: `${i * 120}ms` }}
-                  />
-                </div>
-              </li>
-            ))}
-          </ul>
-          <p className="text-muted-foreground border-border mt-8 border-t pt-6 text-sm leading-relaxed">
-            Fixing the top two findings moves overall health from{" "}
-            <strong className="text-foreground font-medium">73</strong> to an estimated{" "}
-            <strong className="text-foreground font-medium">89</strong>.
+        <Reveal delay={120} className="bg-ink rounded-xl p-7 text-white">
+          <span className="label-tech flex items-center gap-2 !text-white/40">
+            <Sparkles className="text-violet size-3.5" /> AI Recommendation
+          </span>
+          <p className="mt-5 text-[1.0625rem] leading-relaxed">
+            "Fix these three issues first. They have the biggest potential impact on your
+            website health."
           </p>
+          <div className="mt-7 flex items-baseline gap-3 border-t border-white/10 pt-6">
+            <span className="font-display text-3xl font-semibold tabular-nums">73</span>
+            <span className="text-white/40">→</span>
+            <span className="text-success font-display text-3xl font-semibold tabular-nums">
+              89
+            </span>
+            <span className="ml-auto font-mono text-[0.62rem] tracking-[0.14em] text-white/35 uppercase">
+              Projected
+            </span>
+          </div>
         </Reveal>
       </div>
     </Section>

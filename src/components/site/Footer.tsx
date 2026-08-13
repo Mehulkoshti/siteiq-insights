@@ -3,7 +3,7 @@ import { Logo } from "./Logo";
 const COLUMNS = [
   {
     title: "Product",
-    links: ["Website Audit", "Monitoring", "Compare Sites", "Bulk Audit", "AI Insights"],
+    links: ["Website Audit", "Monitoring", "Compare Websites", "AI Insights"],
   },
   { title: "Resources", links: ["Documentation", "FAQ", "Blog", "Changelog"] },
   { title: "Company", links: ["Codaiman", "About", "Contact"] },
