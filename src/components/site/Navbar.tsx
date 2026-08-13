@@ -5,11 +5,10 @@ import { Logo } from "./Logo";
 
 const NAV = [
   { label: "Product", href: "#product" },
-  { label: "Solutions", href: "#solutions" },
   { label: "Compare", href: "#compare" },
-  { label: "Resources", href: "#resources" },
-  { label: "Pricing", href: "#pricing" },
+  { label: "Pricing", href: "#top" },
 ];
+
 
 export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
