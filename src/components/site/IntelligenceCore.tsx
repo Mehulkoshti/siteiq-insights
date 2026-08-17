@@ -41,6 +41,15 @@ type Particle = {
   pos: Vec;
 };
 
+// Navy/blue/cyan dominate; violet stays rare.
+const CAT_WEIGHTED: Category[] = [
+  "SEO", "SEO", "SEO",
+  "SECURITY", "SECURITY", "SECURITY",
+  "PERFORMANCE", "PERFORMANCE", "PERFORMANCE",
+  "INFRASTRUCTURE", "INFRASTRUCTURE",
+  "ACCESSIBILITY",
+];
+
 const LOOP = 8.4; // seconds
 
 const rand = (a: number, b: number) => a + Math.random() * (b - a);
@@ -158,7 +167,7 @@ export function IntelligenceCore({ className }: { className?: string }) {
 
     const word = sampleWord(COUNT);
     const particles: Particle[] = Array.from({ length: COUNT }, (_, i) => {
-      const cat = CATEGORIES[i % CATEGORIES.length] as Category;
+      const cat = CAT_WEIGHTED[i % CAT_WEIGHTED.length] as Category;
       const shape: Shape = i % 11 === 0 ? "hex" : i % 4 === 0 ? "square" : "dot";
       const a = rand(0, Math.PI * 2);
       const b = Math.acos(rand(-1, 1));
