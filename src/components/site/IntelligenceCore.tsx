@@ -76,7 +76,10 @@ function sampleWord(count: number): Vec[] {
     }
   }
   const out: Vec[] = [];
-  for (let i = 0; i < count; i++) out.push(hits[Math.floor(Math.random() * hits.length)] ?? { x: 0, y: 0, z: 0 });
+  for (let i = 0; i < count; i++) {
+    const h = hits[Math.floor(Math.random() * hits.length)];
+    out.push(h ? { ...h } : { x: 0, y: 0, z: 0 });
+  }
   return out;
 }
 
@@ -95,9 +98,9 @@ function structPoint(i: number, n: number): Vec {
   if (r < 0.82) {
     // satellite pages orbiting behind/in front
     const k = Math.floor(rand(0, 4));
-    const cx = [-190, 195, -160, 175][k];
-    const cy = [-90, -40, 105, 130][k];
-    const cz = [-130, -90, 120, 150][k];
+    const cx = [-190, 195, -160, 175][k] ?? 0;
+    const cy = [-90, -40, 105, 130][k] ?? 0;
+    const cz = [-130, -90, 120, 150][k] ?? 0;
     return { x: cx + rand(-52, 52), y: cy + rand(-38, 38), z: cz + rand(-18, 18) };
   }
   // ambient structural signals
@@ -155,7 +158,7 @@ export function IntelligenceCore({ className }: { className?: string }) {
 
     const word = sampleWord(COUNT);
     const particles: Particle[] = Array.from({ length: COUNT }, (_, i) => {
-      const cat = CATEGORIES[i % CATEGORIES.length];
+      const cat = CATEGORIES[i % CATEGORIES.length] as Category;
       const shape: Shape = i % 11 === 0 ? "hex" : i % 4 === 0 ? "square" : "dot";
       const a = rand(0, Math.PI * 2);
       const b = Math.acos(rand(-1, 1));
@@ -182,8 +185,8 @@ export function IntelligenceCore({ className }: { className?: string }) {
     const links: [number, number][] = [];
     for (let i = 0; i < particles.length; i += 3) {
       for (let j = i + 3; j < Math.min(i + 60, particles.length); j += 7) {
-        const a = particles[i].struct;
-        const b = particles[j].struct;
+        const a = particles[i]!.struct;
+        const b = particles[j]!.struct;
         const d = (a.x - b.x) ** 2 + (a.y - b.y) ** 2 + (a.z - b.z) ** 2;
         if (d < 3400) links.push([i, j]);
         if (links.length > (mobile ? 130 : 380)) break;
@@ -290,9 +293,9 @@ export function IntelligenceCore({ className }: { className?: string }) {
       if (linkAlpha > 0.02) {
         ctx.lineWidth = 0.7;
         for (const [i, j] of links) {
-          const a = project(particles[i].pos, yaw, pitch);
-          const b = project(particles[j].pos, yaw, pitch);
-          const near = Math.abs(particles[i].pos.y - scanY) < 60 && scan > 0 && scan < 1;
+          const a = project(particles[i]!.pos, yaw, pitch);
+          const b = project(particles[j]!.pos, yaw, pitch);
+          const near = Math.abs(particles[i]!.pos.y - scanY) < 60 && scan > 0 && scan < 1;
           ctx.strokeStyle = near
             ? `rgba(6,182,212,${linkAlpha * 0.9})`
             : `rgba(37,99,235,${linkAlpha * 0.28})`;
