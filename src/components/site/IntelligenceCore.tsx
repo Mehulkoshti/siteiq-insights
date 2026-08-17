@@ -70,7 +70,7 @@ function sampleWord(count: number): Vec[] {
   const hits: Vec[] = [];
   for (let y = 0; y < h; y += 2) {
     for (let x = 0; x < w; x += 2) {
-      if (data[(y * w + x) * 4 + 3] > 128) {
+      if ((data[(y * w + x) * 4 + 3] ?? 0) > 128) {
         hits.push({ x: (x - w / 2) * 0.62, y: (y - h / 2) * 0.62, z: rand(-6, 6) });
       }
     }
