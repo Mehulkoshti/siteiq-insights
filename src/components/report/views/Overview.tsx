@@ -206,7 +206,11 @@ export function Overview({
             <MetricCard label="Crawled" value={report.crawl.crawled} />
             <MetricCard label="Broken" value={report.crawl.broken} tone={report.crawl.broken ? "danger" : "neutral"} />
             <MetricCard label="Redirects" value={report.crawl.redirects} />
-            <MetricCard label="Orphans" value={report.crawl.orphans ?? "—"} hint={report.crawl.orphans === null ? "Needs full crawl" : undefined} />
+            <MetricCard
+              label="Orphans"
+              value={report.crawl.orphans ?? "—"}
+              {...(report.crawl.orphans === null ? { hint: "Needs full crawl" } : {})}
+            />
             <MetricCard
               label="Avg response"
               value={report.crawl.avgResponseMs === null ? "—" : `${report.crawl.avgResponseMs}ms`}
