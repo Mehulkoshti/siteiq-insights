@@ -31,7 +31,7 @@ export interface Finding {
   difficulty: "easy" | "moderate" | "hard";
   howToFix: string;
   affectedPages: string[];
-  evidence?: string;
+  evidence?: string | undefined;
 }
 
 export interface CategoryScore {
@@ -54,7 +54,7 @@ export interface ParallelCheck {
   id: string;
   label: string;
   status: CheckStatus;
-  detail?: string;
+  detail?: string | undefined;
 }
 
 export interface CrawlStats {
@@ -81,7 +81,7 @@ export interface AuditReport {
   /** True when the source only covered part of the site (e.g. preview analysis). */
   partial: boolean;
   /** Human-readable note about coverage limits. */
-  coverageNote?: string;
+  coverageNote?: string | undefined;
 }
 
 export const CATEGORY_LABELS: Record<CategoryId, string> = {
