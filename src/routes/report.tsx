@@ -1,10 +1,12 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { z } from "zod";
-import { ArrowLeft, Loader2 } from "lucide-react";
-import { Navbar } from "@/components/site/Navbar";
-import { Footer } from "@/components/site/Footer";
+import { ArrowLeft } from "lucide-react";
+import { ReportShell } from "@/components/report/ReportShell";
 
-const searchSchema = z.object({ url: z.string().url().catch("") });
+const searchSchema = z.object({
+  url: z.string().url().catch(""),
+  view: z.string().catch("overview"),
+});
 
 const title = "SiteIQ — Website Analysis";
 const description =
@@ -27,43 +29,37 @@ export const Route = createFileRoute("/report")({
 });
 
 function ReportPage() {
-  const { url } = Route.useSearch();
+  const { url, view } = Route.useSearch();
+  const navigate = useNavigate({ from: "/report" });
+
+  if (!url) {
+    return (
+      <main className="container-iq flex min-h-screen flex-col justify-center py-24">
+        <div className="mx-auto max-w-lg text-center">
+          <h1 className="font-display text-[1.75rem] font-semibold tracking-tight">
+            No website to analyze
+          </h1>
+          <p className="text-muted-foreground mt-3 text-[0.9375rem] leading-relaxed">
+            Enter a website URL on the home page to start an analysis.
+          </p>
+          <Link
+            to="/"
+            className="text-muted-foreground hover:text-foreground mt-6 inline-flex items-center gap-2 text-sm"
+          >
+            <ArrowLeft className="size-4" /> Back to SiteIQ
+          </Link>
+        </div>
+      </main>
+    );
+  }
 
   return (
-    <>
-      <Navbar />
-      <main className="container-iq pt-32 pb-24">
-        <Link
-          to="/"
-          className="text-muted-foreground hover:text-foreground inline-flex items-center gap-2 text-sm"
-        >
-          <ArrowLeft className="size-4" /> Back
-        </Link>
-
-        <h1 className="mt-6 text-3xl font-semibold tracking-tight md:text-4xl">Website analysis</h1>
-        <p className="text-muted-foreground mt-3 font-mono text-sm break-all">
-          {url || "No website URL provided."}
-        </p>
-
-        {url ? (
-          <div className="panel mt-8 flex items-center gap-3 p-6">
-            <Loader2 className="text-blue size-4 animate-spin" aria-hidden="true" />
-            <p className="text-sm" aria-live="polite">
-              Starting analysis — SiteIQ is crawling this site and collecting signals. Results will
-              appear here as soon as the scan completes.
-            </p>
-          </div>
-        ) : (
-          <div className="panel mt-8 p-6 text-sm">
-            Enter a website URL on the{" "}
-            <Link to="/" className="text-blue underline underline-offset-4">
-              home page
-            </Link>{" "}
-            to start an analysis.
-          </div>
-        )}
-      </main>
-      <Footer />
-    </>
+    <ReportShell
+      url={url}
+      view={view}
+      onViewChange={(id) =>
+        void navigate({ search: (prev) => ({ ...prev, view: id }), replace: true })
+      }
+    />
   );
 }
